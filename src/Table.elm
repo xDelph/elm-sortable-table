@@ -3,6 +3,7 @@ module Table exposing
     , config, stringColumn, intColumn, floatColumn
     , State, initialSort
     , getSortedData
+    , customThead
     , Column, customColumn, veryCustomColumn
     , Sorter, unsortable, increasingBy, decreasingBy
     , increasingOrDecreasingBy, decreasingOrIncreasingBy
@@ -226,13 +227,27 @@ defaultCustomizations =
     , rowAttrs = simpleRowAttrs
     }
 
+customThead : String -> List ((String -> msg), String, Html msg) -> List ( String, Status, Attribute msg ) -> HtmlDetails msg
+customThead customClass customEvents headers =
+    HtmlDetails [ Attr.class customClass ] (List.map 
+        (\ ( name, status, click ) -> 
+            let 
+                content = simpleTheadHelp ( name, status, click ) 
+            in 
+            Html.th [] <| [
+                Html.span [ click ] content   
+            ] ++
+            (List.map (\(event, classStr, customContent) -> Html.span [ Attr.class classStr, E.onClick <| event name ] [ customContent ]) customEvents)
+        ) headers
+    )
+
 
 simpleThead : List ( String, Status, Attribute msg ) -> HtmlDetails msg
 simpleThead headers =
-    HtmlDetails [] (List.map simpleTheadHelp headers)
+    HtmlDetails [] (List.map (\( name, status, click ) -> let content = simpleTheadHelp ( name, status, click ) in Html.th [ click ] content) headers)
 
 
-simpleTheadHelp : ( String, Status, Attribute msg ) -> Html msg
+simpleTheadHelp : ( String, Status, Attribute msg ) -> List (Html msg)
 simpleTheadHelp ( name, status, click ) =
     let
         content =
@@ -265,8 +280,7 @@ simpleTheadHelp ( name, status, click ) =
                         )
                     ]
     in
-    Html.th [ click ] content
-
+    content
 
 nbsp : String
 nbsp =
