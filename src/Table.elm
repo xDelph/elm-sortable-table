@@ -295,12 +295,12 @@ nbsp =
 
 darkGrey : String -> Html msg
 darkGrey symbol =
-    Html.span [ Attr.style "color" "#555" ] [ Html.text (nbsp ++ symbol) ]
+    Html.span [ Attr.class "sort", Attr.style "color" "#555" ] [ Html.text (nbsp ++ symbol) ]
 
 
 lightGrey : String -> Html msg
 lightGrey symbol =
-    Html.span [ Attr.style "color" "#ccc" ] [ Html.text (nbsp ++ symbol) ]
+    Html.span [ Attr.class "sort", Attr.style "color" "#ccc" ] [ Html.text (nbsp ++ symbol) ]
 
 
 simpleRowAttrs : data -> List (Attribute msg)
