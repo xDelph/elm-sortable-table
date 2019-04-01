@@ -42,6 +42,11 @@ I recommend checking out the [examples] to get a feel for how it works.
 @docs getSortedData
 
 
+# Custom header
+
+@docs customThead
+
+
 # Crazy Customization
 
 If you are new to this library, you can probably stop reading here. After this
@@ -227,6 +232,7 @@ defaultCustomizations =
     , rowAttrs = simpleRowAttrs
     }
 
+{-| -}
 customThead : String -> List ((String -> msg), String, Html msg) -> List ( String, Status, Attribute msg ) -> HtmlDetails msg
 customThead customClass customEvents headers =
     HtmlDetails [ Attr.class customClass ] (List.map 
